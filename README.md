@@ -25,7 +25,7 @@ cd backend
 npm i 
 docker run -d -p 6379:6379 redis:alpine
 ```
-- edit config.js  {{VARIABLES}}
+- edit config.js  {{VARIABLES}} for deafult values
 ```
     url: "https://api.mercadolibre.com",
     maxRate:5,

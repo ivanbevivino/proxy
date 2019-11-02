@@ -2,14 +2,15 @@ const {
     config
 } = require('./config');
 var {
-    rateExceded
+    isRateExceded
 } = require('./helpers/rate')
 
 
 const express = require('express')
 const request = require('request-promise-native')
+const bodyParser = require('body-parser');
 const app = express()
-
+app.use(bodyParser);
 
 
 app.get('*', async (req, res) => {
@@ -22,7 +23,7 @@ app.get('*', async (req, res) => {
 
 
     try {
-        if (await rateExceded(DATA)) {
+        if (await isRateExceded(DATA)) {
             res.status(403).jsonp({
                 "message": "Rate Exceded",
                 "error": "Forbiden",
@@ -50,6 +51,14 @@ app.get('*', async (req, res) => {
 
 });
 
+app.post('/setMaxRate',async (req, res) => {
+console.log(req.body)
+    res.status(200).jsonp({
+        "message": "ok",
+        "status": 200,
+        "cause": []
+    })
+})
 
 
 app.listen(3000, function () {
