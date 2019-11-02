@@ -1,6 +1,4 @@
-const {
-    config
-} = require('../config');
+const {  config} = require('../config');
 var Redis = require("ioredis");
 var redis = new Redis(config.redisPort, config.redisHost)
 

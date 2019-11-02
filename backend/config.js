@@ -4,6 +4,8 @@ var config = {
     hostMaxRate:1000,
     maxRateTime:120,
     redisHost:'localhost',
-    redisPort:6379
+    redisPort:6379,
+    elasticSearchHost:'http://localhost',
+    elasticSearchPort: 9200
 };
 exports.config = config;

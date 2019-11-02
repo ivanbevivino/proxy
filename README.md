@@ -11,11 +11,13 @@
 
 proxy uses the following tecnologies:
 
+frontend
 * [AngularJS] - HTML enhanced for web apps!
-* [node.js] - evented I/O for the backend
 * [Gulp] - the streaming build system
-
-
+backend
+* [node.js] - backend
+* [ElasticSearch] - metrics & statistics
+* [Redis] -  rate control
 
 
 ### Installation
@@ -24,13 +26,18 @@ proxy uses the following tecnologies:
 cd backend
 npm i 
 docker run -d -p 6379:6379 redis:alpine
+docker run -d -p 9200:9200 -p 9300:9300 elasticsearch:6.7.2
+
 ```
 - edit config.js  {{VARIABLES}} for deafult values
 ```
     url: "https://api.mercadolibre.com",
-    maxRate:5,
-    maxRateTime:20,
+    pathMaxRate:5,
+    hostMaxRate:1000,
+    maxRateTime:120,
     redisHost:'localhost',
-    redisPort:6379
+    redisPort:6379,
+    elasticSearchHost:'http://localhost',
+    elasticSearchPort: 9200
 ```
 

@@ -1,20 +1,14 @@
-const {
-    config
-} = require('./config');
-var {
-    isRateExceded,
-    setMaxRate
-} = require('./helpers/rate')
+const { config} = require('./config');
+var {isRateExceded, setMaxRate} = require('./helpers/rate')
+var {sendMetric} = require('./metrics/metric')
 
 
 const express = require('express')
 const request = require('request-promise-native')
 const app = express()
 
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({
-    extended: true
-})) // for parsing application/x-www-form-urlencoded
+app.use(express.json()) 
+app.use(express.urlencoded({ extended: true})) 
 
 
 app.get('*', async (req, res) => {
@@ -34,9 +28,11 @@ app.get('*', async (req, res) => {
                 "status": 403,
                 "cause": []
             })
+            await sendMetric(DATA.PATH,DATA.HOST,403)
             console.log(`////////////////////// END REQUEST /////////////////////////`)
         }
         const result = await request(DATA.URL)
+        await sendMetric(DATA.PATH,DATA.HOST,200)
         res.json(JSON.parse(result))
         console.log(`////////////////////// END REQUEST /////////////////////////`)
 
@@ -45,11 +41,13 @@ app.get('*', async (req, res) => {
         if (e.response && e.response.body) {
             console.log(e.response.body.status)
             let body = JSON.parse(e.response.body)
+            await sendMetric(DATA.PATH,DATA.HOST,body.status?body.status:500)
             body.status ? res.status(body.status).jsonp(body) : res.status(500).jsonp(body)
             console.log(`////////////////////// END REQUEST /////////////////////////`)
 
         }
-        res.json(e)
+        await sendMetric(DATA.PATH,DATA.HOST,500)
+        res.status(500).jsonp(e)
         console.log(`////////////////////// END REQUEST /////////////////////////`)
     }
 
