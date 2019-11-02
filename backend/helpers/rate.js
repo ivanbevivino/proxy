@@ -34,8 +34,8 @@ exports.isRateExceded = async (DATA) => {
 
 
     function isPathLimitExceded() {
-        console.log(res[0], pathLimit)
-        if (res[0] && res[0] > pathLimit) {
+        console.log(res[0], Number(pathLimit))
+        if (res[0] && Number(res[0]) > Number(pathLimit)) {
             return true
         } else {
             return false
@@ -44,8 +44,8 @@ exports.isRateExceded = async (DATA) => {
     
     
     function isHostLimitExceded() {
-        console.log(res[2], hostsLimit)
-        if (res[2] && res[2] > hostsLimit) {
+        console.log(res[2], Number(hostsLimit))
+        if (res[2] && Number(res[2]) > Number(hostsLimit)) {
             return true
         } else {
             return false
@@ -55,7 +55,13 @@ exports.isRateExceded = async (DATA) => {
 
 }
 
-exports.setMaxRate = async (key,maxRate) => {
-    redis.set(`maxrate${key}`, maxRate)
+exports.setMaxRate = async (key,maxRate,ttl) => {
+    // TODO: ttl dosn't work
+    if(ttl){
+        
+        console.log(`==============${ttl}=============` )
+        redis.setex(`maxrate${key}`,Number(ttl),Number(maxRate))
+    }
+    redis.set(`maxrate${key}`, Number(maxRate))
 
 }

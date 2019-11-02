@@ -2,15 +2,19 @@ const {
     config
 } = require('./config');
 var {
-    isRateExceded
+    isRateExceded,
+    setMaxRate
 } = require('./helpers/rate')
 
 
 const express = require('express')
 const request = require('request-promise-native')
-const bodyParser = require('body-parser');
 const app = express()
-app.use(bodyParser);
+
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({
+    extended: true
+})) // for parsing application/x-www-form-urlencoded
 
 
 app.get('*', async (req, res) => {
@@ -51,13 +55,45 @@ app.get('*', async (req, res) => {
 
 });
 
-app.post('/setMaxRate',async (req, res) => {
-console.log(req.body)
-    res.status(200).jsonp({
-        "message": "ok",
-        "status": 200,
-        "cause": []
-    })
+app.post('/setMaxRate', async (req, res) => {
+    console.log(req.body)
+    if (req.body && !req.body.key) {
+        res.status(400).jsonp({
+            "message": `missing 'key' param in request`,
+            "error": "Bad Request",
+            "status": 400,
+            "cause": []
+        })
+    }
+    if (req.body && !req.body.value) {
+
+        res.status(400).jsonp({
+            "message": `missing 'value' param in request`,
+            "error": "Bad Request",
+            "status": 400,
+            "cause": []
+        })
+    }
+    if (typeof req.body.value !== "number") {
+        res.status(400).jsonp({
+            "message": `'value' param must be a number`,
+            "error": "Bad Request",
+            "status": 400,
+            "cause": []
+        })
+    }
+    
+    if (req.body.ttl && typeof req.body.ttl !== "number") {
+        res.status(400).jsonp({
+            "message": `'ttl' param must be a number`,
+            "error": "Bad Request",
+            "status": 400,
+            "cause": []
+        })
+    }
+    await setMaxRate(req.body.key, req.body.value,req.body.ttl)
+
+    res.json({"message":'rate updated'})
 })
 
 
