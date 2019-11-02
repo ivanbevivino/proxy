@@ -1,4 +1,4 @@
-var {
+const {
     config
 } = require('./config');
 var {
