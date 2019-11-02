@@ -1,6 +1,6 @@
 const {   config} = require('../config');
 var Redis = require("ioredis");
-var redis = new Redis(config.redisPort);
+var redis = new Redis(config.redisPort,config.redisHost)
 exports.rateExceded = async (DATA) => {
     try {
         

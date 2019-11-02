@@ -1,17 +1,10 @@
 # Proxy
 
-this is a serverless stack with the following services
-
-  - Api Gateway
-  - Lambda
-  - Dynamo
 
 ## Requirement
 
  - you need install node 10.x [Node.js](https://nodejs.org/) 
- -  you need install serverless as global  [serverless ](https://www.npmjs.com/package/serverless) 
- ```npm i serverless -g```
-
+ - if you want to debug install [Docker](https://docs.docker.com/install/)
 
 
 ### Tech
@@ -24,20 +17,20 @@ proxy uses the following tecnologies:
 
 
 
+
 ### Installation
 #### backend
 ```
 cd backend
 npm i 
-touch .env.dev
-nano .env.dev
+docker run -d -p 6379:6379 redis:alpine
 ```
-- paste and replace {{VARIABLES}}
+- edit config.js  {{VARIABLES}}
 ```
-SERVICE=backend
-PROFILE={{PROFILE}}
-STAGE={{STAGE}}
-REGION={{AWS_REGION}}
-URL= {{URL}}
-SLS_DEBUG=true
+    url: "https://api.mercadolibre.com",
+    maxRate:5,
+    maxRateTime:20,
+    redisHost:'localhost',
+    redisPort:6379
 ```
+
