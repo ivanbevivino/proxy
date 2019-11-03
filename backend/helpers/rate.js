@@ -1,4 +1,6 @@
-const {  config} = require('../config');
+const {
+    config
+} = require('../config');
 var Redis = require("ioredis");
 var redis = new Redis(config.redisPort, config.redisHost)
 
@@ -6,10 +8,28 @@ var redis = new Redis(config.redisPort, config.redisHost)
 exports.isRateExceded = async (DATA) => {
     try {
         // GET CURRENT VALUE,GET CUSTOM RATE
-        res = await Promise.all([redis.get(`${DATA.PATH}`), redis.get(`maxrate${DATA.PATH}`), redis.get(`${DATA.HOST}`), redis.get(`maxrate${DATA.HOST}`)])
-        // IF HAVEN'T  CUSTOM PATH LIMITS  SET CONFIG.MAXRATE
-        var pathLimit = res[1] ? res[1] : config.pathMaxRate
-        var hostsLimit = res[3] ? res[3] : config.hostMaxRate
+        res = await Promise.all([redis.get(`${DATA.PATH}`), redis.get(`maxrate${DATA.PATH}`), redis.get(`${DATA.HOST}`), redis.get(`maxrate${DATA.HOST}`), redis.get(`maxratePath`), redis.get(`maxrateHost`)])
+        // IF HAVEN'T  CUSTOM PATH LIMITS  
+        if (res[1]) {
+            var pathLimit = res[1]
+        } else {
+            if (res[4]) { // IF HAVEN'T  GENERAL PATH LIMITS  SET CONFIG.MAXRATE
+                var pathLimit = res[4]
+            } else {
+                var pathLimit = config.pathMaxRate
+            }
+        }
+        // IF HAVEN'T  CUSTOM HOST LIMITS  
+        if (res[3]) {
+            var hostsLimit = res[3]
+        } else {
+            // IF HAVEN'T  GENERAL PATH LIMITS  SET CONFIG.MAXRATE
+            if (res[5]) {
+                var hostsLimit = res[5]
+            } else {
+                var hostsLimit = config.hostMaxRate
+            }
+        }
         //IF NOT EXIST PATH REDIS, SET NEW REDIS 
         if (!res[0]) {
             redis.setex(`${DATA.PATH}`, config.maxRateTime, 1)
@@ -32,17 +52,15 @@ exports.isRateExceded = async (DATA) => {
 
 
     function isPathLimitExceded() {
-        console.log(res[0], Number(pathLimit))
         if (res[0] && Number(res[0]) > Number(pathLimit)) {
             return true
         } else {
             return false
         }
     }
-    
-    
+
+
     function isHostLimitExceded() {
-        console.log(res[2], Number(hostsLimit))
         if (res[2] && Number(res[2]) > Number(hostsLimit)) {
             return true
         } else {
@@ -53,13 +71,62 @@ exports.isRateExceded = async (DATA) => {
 
 }
 
-exports.setMaxRate = async (key,maxRate,ttl) => {
-    // TODO: ttl dosn't work
-    if(ttl){
-        
-        console.log(`==============${ttl}=============` )
-        redis.setex(`maxrate${key}`,Number(ttl),Number(maxRate))
-    }
-    redis.set(`maxrate${key}`, Number(maxRate))
+exports.setMaxRate = async (key, maxRate, ttl) => {
+    if (ttl) {
+        if (key == "maxrateHost") {
+            redis.setex(`maxrateHost`, Number(ttl), Number(maxRate))
 
+        } else {
+
+
+            if (key == "maxratePath") {
+                redis.setex(`maxratePath`, Number(ttl), Number(maxRate))
+
+            } else {
+
+                redis.setex(`maxrate${key}`, Number(ttl), Number(maxRate))
+            }
+        }
+    } else {
+        if (key == "maxrateHost") {
+            redis.set(`maxrateHost`, Number(maxRate))
+
+        } else {
+
+            if (key == "maxratePath") {
+                redis.set(`maxratePath`, Number(maxRate))
+
+            } else {
+
+                redis.set(`maxrate${key}`, Number(maxRate))
+            }
+        }
+    }
+
+}
+
+
+
+exports.getMaxRate = async () => {
+    var res = await redis.keys(`*maxrate*`)
+    console.log(res)
+    var prom = []
+    for (let index = 0; index < res.length; index++) {
+        const key = res[index];
+        prom.push(redis.get(key))
+    }
+    if (prom.length) {
+        var resu = await Promise.all(prom)
+    }
+
+    console.log(resu)
+    var result = []
+    for (let i = 0; i < resu.length; i++) {
+        result.push({
+            "key": res[i],
+            "value": resu[i]
+        })
+
+    }
+    return result
 }

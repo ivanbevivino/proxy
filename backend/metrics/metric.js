@@ -1,5 +1,6 @@
 const request = require('request-promise-native')
 const {  config} = require('../config');
+var {getQuery } = require('./querys');
 var moment = require('moment');
 
 
@@ -27,18 +28,16 @@ exports.sendMetric = async (path, host, result) => {
 
 
 
-exports.getMetric = async (id,) => {
+exports.getMetric = async (id) => {
   let time = moment().hours(0).minutes(0).seconds(0).format("X")
   var options = {
     method: 'POST',
-    uri: `${config.elasticSearchHost}:${config.elasticSearchPort}/request/${time}/_search`,
-    body: {
-
-    },
+    uri: `${config.elasticSearchHost}:${config.elasticSearchPort}/request/_search`,
+    body: JSON.parse(`${getQuery(Number(id))}`),
     json: true
   };
 
-  await request(options)
-
+    return await request(options)
+  
 
 }
