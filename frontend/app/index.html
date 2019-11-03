@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang='en' data-ng-app='frontend' ng-controller="frontendCtrl">
+
+<head>
+  <title>frontend</title>
+  <meta name='viewport' content='width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes'>
+  <meta name="version" content="2018-12-11 13h30">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+  <!-- inject:head:js -->
+  <!-- endinject -->
+  <!-- inject:html -->
+  <!-- endinject -->
+  <!-- bower:css -->
+  <!-- endbower -->
+  <!-- inject:css -->
+  <!-- endinject -->
+ 
+</head>
+
+<body>
+  <div class='navbar nav-bar-style' role='navigation'>
+    <div class='container'>
+      <div class='navbar-header'>
+        <button class='navbar-toggle collapsed' type='button' data-ng-init='navCollapsed = true' data-ng-click='navCollapsed = !navCollapsed'>
+          <span class='sr-only'>Toggle Navigation</span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'> </span>
+        </button>
+        <span class=" navbar-brand navbarbutton " ng-click="openasidemenu() " aria-hidden="true "  style="margin-top: -4px"><i class="fa fa-bars " aria-hidden="true " style=" color:#73879C;cursor: pointer;"></i></span>
+         <a class="navbar-brand" href="">
+        <img alt="Brand" src="images/logo-header2.png" style="    margin-top: -23px;    margin-left: -10px;">
+      </a>
+      </div>
+  <ul class="nav navbar-nav navbar-right" style="margin-right: 0px !important">
+        <li class="">
+          <a>{{username}} </a>
+          <!-- <ul class="dropdown-menu">
+            <li><a href="">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul> -->
+        </li>
+        <li><a href="" ng-click="logout()"><i class="glyphicon glyphicon-log-out" style="    font-size: 1.8vh;
+    vertical-align: sub;color: #73879C;"></i></a></li>
+      </ul>
+      <!-- <div></div> -->
+      <!-- <div class='navbar-collapse collapse' collapse='navCollapsed'> -->
+       <!--  <ul class='nav navbar-nav'>
+          <li data-ui-sref-active='active'>
+            <a data-ui-sref='home'>Home</a>
+          </li>
+          <li data-ui-sref-active='active'>
+            <a data-ui-sref='events'>Events</a>
+          </li>
+          <li data-ui-sref-active='active'>
+            <a data-ui-sref='category'>Category</a>
+          </li>
+        </ul> -->
+      <!-- </div> -->
+  
+ </div> 
+</div>
+  <div growl></div>
+  <div class='container '>
+    <div class="col-md-12 mainview full " style="margin-top: 2vw; " data-ui-view>
+    </div>
+  </div>
+
+  <nav class="navbar nav-bar-style navbar-fixed-bottom" style="border-top: 0.5px solid #b9b9b975 !important; height: 2vh; max-height: 2vh; min-height: 2vh;">
+  <div class="container text-right">
+  <span>Version {{front_version}}</span>
+  </div>
+</nav>
+  <!-- bower:js -->
+  <!-- endbower -->
+  <!-- inject:js -->
+  <!-- endinject -->
+</body>
+
+</html>

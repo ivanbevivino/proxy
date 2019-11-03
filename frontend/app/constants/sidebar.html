@@ -1,0 +1,25 @@
+<div style="background-color: #2A3F54;    height: -webkit-fill-available; height: inherit;">
+
+  <ul class="nav nav-pills nav-stacked list">
+    <li class="sidebar-li">
+      <a ng-click="$close()" style="cursor: pointer;">Close &times;</a>
+    </li>
+    <li class="sidebar-li"  ng-if="hasPrivilege('home')"  data-ui-sref-active='active'>
+      <a data-ui-sref='home' ng-click="$close()">Home</a>
+    </li>
+     <li class="sidebar-li"  ng-if="hasPrivilege('statistics')" data-ui-sref-active='active'>
+      <a data-ui-sref='statistics' ng-click="$close()">Estadisticas
+      </a>
+    </li>
+    <li class="sidebar-li"  ng-if="hasPrivilege('config')" data-ui-sref-active='active'>
+      <a data-ui-sref='config' ng-click="$close()">config
+      </a>
+    </li>
+  </ul>
+</div>
+<script>
+$('.list > li a').click(function() {
+  $(this).parent().find('ul').toggle();
+});
+
+</script>

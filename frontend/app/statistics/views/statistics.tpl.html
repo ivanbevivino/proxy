@@ -1,0 +1,114 @@
+<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+  <li ng-class="{'active': tab == 'events'}"><a href="" class="taba" translate ng-class="{'active': tab == 'events'}" ng-click="activateTab('events')">events</a></li>
+  <li ng-class="{'active': tab == 'list'}"><a href="" class="taba" translate ng-class="{'active': tab == 'list'}" ng-click="activateTab('list')">list</a></li>
+</ul>
+<div class="x_panel">
+  <div class="x_title">
+    <h2>Eventos <small> </small></h2>
+    <div class="tab__bar  col-md-4 col-md-offset-4">
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="search.title">
+        <span class="input-group-btn">
+        <button type="button" class="btn btn-primary" ng-click="buscarEvento()">  <i class="glyphicon glyphicon-search">
+         </i> </button>
+         <button type="button" class="btn btn-danger" ng-click="limpiarBusqueda()">  <i class="glyphicon glyphicon-trash">
+         </i> </button>
+        </span>
+      </div>
+    </div>
+    <div class="tab__bar  col-md-1 col-md-offset-2">
+      <button class="btn btn-primary" translate href ui-sref="eventAdd" class="action" style=" "> Crear evento</button>
+    </div>
+    <div class="clearfix" style="height: 5vh;"></div>
+  </div>
+  <div class="x_content">
+    <br>
+    <div class="js-intro-helper">
+      <div ng-switch="tab">
+        <div id="js-users-tab" class="tab__content" ng-switch-when="list">
+          <div class="table-responsive">
+            <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped jambo_table bulk_action">
+              <thead>
+                <tr class="headings">
+                  <th class="column-title" st-sort="title">titulo</th>
+                  <th class="column-title" st-sort="description" style="max-width: 70vh;min-width: 70vh;width: 70vh">descripcion</th>
+                  <th class="column-title" st-sort="start_datetime">fecha inicio</th>
+                  <th class="column-title" st-sort="end_datetime">fecha fin</th>
+                  <th class="column-title" st-sort="actions">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="row in displayedCollection">
+                  <td>{{row.title}}</td>
+                  <td>{{row.description}}</td>
+                  <td>{{row.start_datetime}}</td>
+                  <td>{{row.end_datetime}}</td>
+                  <td>
+                    <button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-danger">
+                      <i class="glyphicon glyphicon-remove-circle">
+                  </i>
+                    </button>
+                    <a href="#/eventAdd/{{row.id}}">
+                      <button type="button" class="btn btn-sm btn-primary">
+                        <i class="glyphicon glyphicon-pencil">
+                  </i>
+                      </button>
+                    </a>
+                    <button type="button" ng-click="copyLink(row)" class="btn btn-sm btn-primary">
+                      <i class="glyphicon glyphicon-link">
+                  </i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <nav aria-label="...">
+            <ul class="pager">
+              <li ng-class="{'disabled': currentPage <= '0'}" class=" "><a href="" ng-click="goFoward()">Previous</a></li>
+              <li class=" "><a href="" ng-click="goNext()">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div id="js-credentials-tab" class="tab__content" ng-switch-when="events">
+          <div class="col-md-55" ng-repeat="events in rowCollection ">
+            <div class="thumbnail">
+              <div class="image view view-first">
+                <img style="width: 100%; display: block;" ng-src="{{events.thumbnail}}" srcset="{{events.thumbnail}}" alt="image" />
+                <div class="mask no-caption">
+                  <div class="tools tools-bottom">
+                    <a href="#/eventAdd/{{events.id}}"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <a href="" ng-click="removeItem(events)"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a href="" ng-click="copyLink(events)"> <i class="glyphicon glyphicon-link">                  </i>                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="caption">
+                <p><strong>{{events.title}}</strong>
+                </p>
+                <p>{{events.description}}</p>
+              </div>
+            </div>
+          </div>
+          <nav aria-label="...">
+            <ul class="pager">
+              <li ng-class="{'disabled': currentPage <= '0'}" class=" "><a href="" ng-click="goFoward()">Previous</a></li>
+              <li class=" "><a href="" ng-click="goNext()">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+  </div>
+  </form>
+</div>
+</div>

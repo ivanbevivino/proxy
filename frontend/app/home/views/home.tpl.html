@@ -1,0 +1,48 @@
+
+<!-- top tiles -->
+<div class="row tile_count" style="text-align: center; margin-top: 0px">
+  <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="glyphicon glyphicon-calendar"></i> today API calls  </span>
+    <div class="count">{{apicall}}</div>
+    <!-- <span class="count_bottom"><i class="green">4% </i> desde la ultima semana</span> -->
+  </div>
+  <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="glyphicon glyphicon-film"></i> today success calls </span>
+    <div class="count">{{pastEventSum}}</div>
+    <!-- <span class="count_bottom"><i class="green">4% </i> desde la ultima semana</span> -->
+  </div>
+  <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="glyphicon glyphicon-eye-open"></i> today error calls </span>
+    <div class="count">{{UsuariosVivo}}</div>
+    <!-- <span class="count_bottom"><i class="green">4% </i> desde la ultima semana</span> -->
+  </div>
+  <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="glyphicon glyphicon-facetime-video"></i>  today rate exceded </span>
+    <div class="count" >{{pastEventTimeSumStr}}</div>
+
+    <!-- <span class="count_bottom"><i class="green">4% </i> desde la ultima semana</span> -->
+  </div>
+</div>
+<div class=" row row-chart ">
+  <div class="col-md-10 col-md-offset-1" style="text-align: center;" ng-repeat="report in reports">
+    <div class="x_panel ng-scope">
+      <div class="x_title">
+        <h2>{{report.title}} <small> </small></h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br>
+        <div class="js-intro-helper">
+          <canvas class="chart-base" chart-type="report.type" chart-colors="report.color" chart-data="report.data" chart-labels="report.labels" chart-series="report.series" chart-options="chartoptions" style="height: 32vh ;
+    width: 187vh; "></canvas>
+          <!-- chart-colors="report.color" -->
+          <!-- <canvas id="line" class="chart chart-line" chart-data="data"chart-labels="labels" chart-series="series" chart-options="options"></canvas> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+  </div>
+</div>
+
+<!-- /top tiles -->

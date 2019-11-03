@@ -1,0 +1,59 @@
+version: 0.2
+
+#env:
+  #variables:
+     # key: "value"
+     # key: "value"
+  #parameter-store:
+     # key: "value"
+     # key: "value"
+
+phases:
+  install:
+    commands:
+       # - dir
+       - sudo apt-get install -y
+       - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash 
+       - sudo apt-get install -y nodejs
+       - sudo npm install npm --global    
+       - sudo npm install --global gulp
+       - sudo npm install -g bower
+       # - sudo apt-get install -y ruby-full
+      # - command
+  pre_build:
+    commands:
+       - sudo npm install 
+       # - sudo bower install
+       - bower install --allow-root
+      # - command
+      # - command
+  build:
+    commands:
+       - sudo gulp build
+      # - sudo apt-get install -y
+      # - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash 
+      # - sudo apt-get install -y nodejs
+      # - sudo npm install npm --global    
+      # - npm install -g grunt-cli
+      # - npm --version
+      # - command      
+      # - command
+      # - command
+      # - command
+      # - command
+      # - command
+  post_build:
+    commands:
+      - dir
+      - cd build/app/
+      - aws s3 sync . s3://frontendfrontend
+        # - command
+#artifacts:
+  #files:
+    # - location
+    # - location
+  #discard-paths: yes
+  #base-directory: location
+#cache:
+  #paths:
+    # - paths

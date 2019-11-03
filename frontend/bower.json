@@ -1,0 +1,41 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "~1.4.*",
+    "angular-bootstrap": "^1.3.2",
+    "angular-ui-router": "~0.2.10",
+    "bootstrap": "~3.2.0",
+    "angular-jwt": "^0.1.10",
+    "a0-angular-storage": "^0.0.15",
+    "angular-smart-table": "^2.1.11",
+    "ng-tags-input": "^3.2.0",
+    "moment": "^2.22.2",
+    "angularjs-datetime-picker": "^0.1.20",
+    "angular-growl-v2": "^0.7.9",
+    "angular-aside": "^1.4.0",
+    "components-font-awesome": "^5.4.2",
+    "clappr": "^0.2.97",
+    "angular-ui-sortable": "^0.19.0",
+    "chart.js": "^2.7.2",
+    "angular-chart.js": "^1.1.1",
+    "ngprogress": "^1.1.3",
+    "hls.js": "^0.10.1",
+    "lodash": "^4.17.11",
+    "angular-google-chart": "1.0.0-beta.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.*"
+  },
+  "overrides": {
+    "angular": {
+      "dependencies": {
+        "jquery": "*"
+      }
+    }
+  },
+  "resolutions": {
+    "angular": "1.4.14",
+    "angular-bootstrap": "^1.3.2"
+  }
+}

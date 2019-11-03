@@ -1,0 +1,133 @@
+<div class="js-intro-helper">
+  <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+    <li role="presentation" class="tab" ng-class="{'active': tab == 'Categorias'}"><a translate  class="tab" ng-class="{ 'active': tab=='Categorias' }" ng-click="activateTab( 'Categorias')">Categorias</a></li>
+    <li role="presentation" class="tab" ng-class="{ 'active': tab=='Tags' }"><a translate  class="tab" ng-class="{ 'active': tab=='Tags' }" ng-click="activateTab( 'Tags')">Tags</a></li>
+  </ul>
+  <div ng-switch="tab">
+    <!-- --- User --- -->
+    <div id="js-users-tab" class="tab__content" ng-switch-when="Categorias">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Categorias</h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li>
+                <button class="btn btn-primary" translate ng-click="syncCategories()" class="action">sincronizar Categorias</button>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="table-responsive">
+              <table st-table="displayedCollection" st-safe-src="categorias" class="table table-striped jambo_table bulk_action">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title" st-sort="id">id</th>
+                    <th class="column-title" st-sort="email">Categoria</th>
+                    <!-- <th class="column-title" st-sort="roles">roles</th> -->
+                    <!-- <th class="column-title" st-sort="active">activo</th> -->
+                    <th class="column-title" st-sort="active">acciones</th>
+                  </tr>
+                    <tr class="trbusqueda">
+        <th colspan="5"><input st-search="" class="form-control" placeholder="Buscar..." type="text"/></th>
+      </tr>
+              <!-- <input st-search="" class="form-control" placeholder="global search ..." type="text"/> -->
+                </thead>
+                <tbody>
+                  <tr ng-repeat="row in displayedCollection">
+                    <td>{{row.id}}</td>
+                    <td>{{row.text}}</td>
+          <!--           <td><span ng-repeat="rol in row.roles">{{rol.text}} | </span></td>
+                    <td>{{row.active==1?true:false}}</td> -->
+                   <td>
+                    <a href="#/categorydata/{{row.id}}">
+                      <button type="button" class="btn btn-sm btn-primary">
+                        <i class="glyphicon glyphicon-pencil">
+                  </i>
+                      </button>
+                    </a>
+                      <!-- <a href="#/categorydata/{{row.id}}"><i class="glyphicon glyphicon-pencil"></i></a> -->
+                      <!-- <button type="button" href="#/categorydata/{{row.id}}" class="btn btn-sm btn-primary"> -->
+                        <!-- <i class="glyphicon glyphicon-pencil"></i> -->
+                      <!-- </button> -->
+                    </td> 
+                    </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5" class="text-center">
+                      <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--    <div>
+        
+      </div> -->
+    </div>
+    <!-- --- Roles --- -->
+    <div id="js-users-tab" class="tab__content" ng-switch-when="Tags">
+      <!--      <div class="tab__bar clearfix">
+        <button class="primary-bglight-button right" translate ng-click="createRolPopup()" class="action">Create Rol</button>
+      </div>
+      
+ -->
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Tags</h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li>
+                <button class="btn btn-primary" translate ng-click="syncTags()" class="action">Syncronizar Tags</button>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="table-responsive">
+              <table st-table="displayedCollectionRoles" st-safe-src="tags" class="table table-striped jambo_table bulk_action">
+                <thead>
+                  <tr>
+                    <th class="column-title" st-sort="id">id</th>
+                    <th class="column-title" st-sort="name">name</th>
+                  <!--   <th class="column-title" st-sort="priv">privilegios</th>
+                    <th class="column-title" st-sort="acciones">acciones</th> -->
+                  </tr>
+                   <tr class="trbusqueda">
+        <th colspan="5"><input st-search="" class="form-control" placeholder="Buscar..." type="text"/></th>
+      </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="rol in displayedCollectionRoles">
+                    <td>{{rol.id}}</td>
+                    <td>{{rol.text}}</td>
+                    <!-- <td>{{rol.name}}</td>
+                      <td><span ng-repeat="pri in rol.privileges">{{pri.text}} | </span></td>
+                    <td>
+                      <button type="button" ng-click="createEditRolPopup(rol)" class="btn btn-sm btn-primary">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                      </button>
+                      <button type="button" ng-click="deleteRol(rol)" class="btn btn-sm btn-danger">
+                        <i class="glyphicon glyphicon-remove-circle"></i>
+                      </button>
+                    </td> -->
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5" class="text-center">
+                      <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
