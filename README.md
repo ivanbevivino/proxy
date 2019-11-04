@@ -5,6 +5,8 @@
 
  - you need install node 10.x [Node.js](https://nodejs.org/) 
  - you need install [Docker](https://docs.docker.com/install/)
+ - you need install [Gulp](https://gulpjs.com/)
+``` npm install gulp-cli -g```
 
 
 ### Tech
@@ -34,12 +36,13 @@ docker run -d -p 9200:9200 -p 9300:9300 elasticsearch:6.7.2
 ```
 
 #### Backend
+- Install dependencies
 ```
 cd backend
 npm i 
 
 ```
-- edit config.js  {{VARIABLES}} for deafult values
+- Edit config.js  {{VARIABLES}} for deafult values
 ```
 nano config.js 
 ```
@@ -53,12 +56,13 @@ nano config.js
     elasticSearchHost:'http://localhost',
     elasticSearchPort: 9200
 ```
-
+- Run
 ```
 node index.js
 ```
 
 #### Frontend
+- Install dependencies
 ```
 cd frontend
 npm i 
@@ -66,7 +70,7 @@ bower i
 
 
 ```
-- edit backend endpoint  
+- Edit backend endpoint  
 ```
  nano app/constants/api-url-constant.js 
 
@@ -79,4 +83,9 @@ bower i
 
 
 ```
+- Run
 
+```
+gulp
+
+```
