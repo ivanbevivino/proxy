@@ -97,3 +97,8 @@ bower i
 gulp
 
 ```
+
+
+## infrastructure
+### Diagram
+![alt text](https://github.com/ivanbevivino/proxy/master/ProxyInfraestructureDiagram.png)
