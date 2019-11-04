@@ -101,4 +101,4 @@ gulp
 
 ## infrastructure
 ### Diagram
-![alt text](https://github.com/ivanbevivino/proxy/master/ProxyInfraestructureDiagram.png)
+![alt text](https://github.com/ivanbevivino/proxy/blob/master/ProxyInfraestructureDiagram.png)
