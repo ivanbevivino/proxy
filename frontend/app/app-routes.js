@@ -8,26 +8,26 @@
     .controller('AppCtrl', AppCtrl);
 
   function config($urlRouterProvider, jwtInterceptorProvider, jwtOptionsProvider, $httpProvider) {
-    // $urlRouterProvider.otherwise('/home');
-    // jwtInterceptorProvider.tokenGetter = function(store) {
-      // return store.get('jwt');
-    // };
+    $urlRouterProvider.otherwise('/home');
+    jwtInterceptorProvider.tokenGetter = function(store) {
+      return store.get('jwt');
+    };
 
-    // $httpProvider.defaults.headers.common.Authorization = 'Bearer '
+    $httpProvider.defaults.headers.common.Authorization = 'Bearer '
     
-    // $httpProvider.interceptors.push('jwtInterceptor');
-    // jwtOptionsProvider.config({ whiteListedDomains: ['*'] });
+    $httpProvider.interceptors.push('jwtInterceptor');
+    jwtOptionsProvider.config({ whiteListedDomains: ['*'] });
 
 
 
-// $httpProvider.interceptors.push(function($q) {
-//   return {
-//    'request': function(config) {
+$httpProvider.interceptors.push(function($q) {
+  return {
+   'request': function(config) {
 
-//        return config;
-//     }
-//   };
-// });
+       return config;
+    }
+  };
+});
 
 
 

@@ -7,6 +7,11 @@ const express = require('express')
 const request = require('request-promise-native')
 const app = express()
 
+var cors = require('cors')
+
+app.use(cors())
+
+
 app.use(express.json())
 app.use(express.urlencoded({
     extended: true

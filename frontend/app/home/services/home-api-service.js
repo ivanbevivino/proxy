@@ -20,20 +20,26 @@
     };
 
 
-    self.homeReports = function (userid) {
-      return $http.get(API_URL.API_OTT_URL + '/home/' + userid).then(function (response) {
+    // self.homeReports = function (userid) {
+    //   return $http.get(API_URL.API_BACKEND + '/home/' + userid).then(function (response) {
+    //     return response.data;
+    //   });
+    // };
+
+    self.homeReports = function () {
+      var req = {
+        "id": 2
+      }
+      return $http.post(API_URL.API_BACKEND + 'getMetric/',req).then(function (response) {
         return response.data;
       });
     };
 
-    self.getUseronline = function (id, eventid, from, to) {
+    self.homeReports2 = function () {
       var req = {
-        "id": id,
-        "eventid": eventid,
-        "from": from,
-        "to": to
+        "id": 1
       }
-      return $http.post(API_URL.API_OTT_REPORTS + '/reports/',req).then(function (response) {
+      return $http.post(API_URL.API_BACKEND + 'getMetric/',req).then(function (response) {
         return response.data;
       });
     };

@@ -81,7 +81,7 @@
 
     if (!$rootScope.progressbar) {
       $rootScope.progressbar = ngProgressFactory.createInstance()
-      $rootScope.progressbar.setColor('#3782CB')
+      $rootScope.progressbar.setColor('#fff159')
       $rootScope.progressbar.setHeight('0.23vw')
 
       $rootScope.progressbar.start()

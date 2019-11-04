@@ -3,22 +3,22 @@
 <div class="row tile_count" style="text-align: center; margin-top: 0px">
   <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="glyphicon glyphicon-calendar"></i> today API calls  </span>
-    <div class="count">{{apicall}}</div>
+    <div class="count">{{apiCalls}}</div>
     <!-- <span class="count_bottom"><i class="green">4% </i> desde la ultima semana</span> -->
   </div>
   <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-    <span class="count_top"><i class="glyphicon glyphicon-film"></i> today success calls </span>
-    <div class="count">{{pastEventSum}}</div>
+    <span class="count_top"><i class="glyphicon glyphicon-ok-circle"></i> today success calls </span>
+    <div class="count">{{apiCallsSuccess}}</div>
     <!-- <span class="count_bottom"><i class="green">4% </i> desde la ultima semana</span> -->
   </div>
   <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-    <span class="count_top"><i class="glyphicon glyphicon-eye-open"></i> today error calls </span>
-    <div class="count">{{UsuariosVivo}}</div>
+    <span class="count_top"><i class="glyphicon glyphicon-remove-circle"></i> today error calls </span>
+    <div class="count">{{apiCallsError}}</div>
     <!-- <span class="count_bottom"><i class="green">4% </i> desde la ultima semana</span> -->
   </div>
   <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-    <span class="count_top"><i class="glyphicon glyphicon-facetime-video"></i>  today rate exceded </span>
-    <div class="count" >{{pastEventTimeSumStr}}</div>
+    <span class="count_top"><i class="glyphicon glyphicon-ban-circle"></i>  today rate exceded </span>
+    <div class="count" >{{apiCallsRateExceded}}</div>
 
     <!-- <span class="count_bottom"><i class="green">4% </i> desde la ultima semana</span> -->
   </div>
@@ -33,7 +33,7 @@
       <div class="x_content">
         <br>
         <div class="js-intro-helper">
-          <canvas class="chart-base" chart-type="report.type" chart-colors="report.color" chart-data="report.data" chart-labels="report.labels" chart-series="report.series" chart-options="chartoptions" style="height: 32vh ;
+          <canvas class="chart-base" chart-type="report.type" chart-colors="report.color" chart-data="report.data" chart-labels="report.labels" chart-series="report.series" chart-options="chartoptions" style="height: 10vh ;
     width: 187vh; "></canvas>
           <!-- chart-colors="report.color" -->
           <!-- <canvas id="line" class="chart chart-line" chart-data="data"chart-labels="labels" chart-series="series" chart-options="options"></canvas> -->
