@@ -6,7 +6,14 @@
  - you need install node 10.x [Node.js](https://nodejs.org/) 
  - you need install [Docker](https://docs.docker.com/install/)
  - you need install [Gulp](https://gulpjs.com/)
-``` npm install gulp-cli -g```
+```
+npm install -g gulp-cli
+npm install gulp -D
+```
+ - you need install [bower](https://bower.io/)
+``` 
+npm install -g bower
+```
 
 
 ### Tech
@@ -30,6 +37,7 @@ proxy uses the following tecnologies:
 
 #### Docker
 ```
+sudo sysctl -w vm.max_map_count=262144
 docker run -d -p 6379:6379 redis:alpine
 docker run -d -p 9200:9200 -p 9300:9300 elasticsearch:6.7.2
 
