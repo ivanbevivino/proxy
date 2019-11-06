@@ -41,6 +41,7 @@ app.get('/getConfig', async (req, res) => {
 ////////// REVERSE PROXY  ///////////////
 app.get('*', async (req, res) => {
     console.log(`////////////////////// START REQUEST /////////////////////////`)
+    console.time(`ALL`);
     const DATA = {
         URL: req.path ? config.url + req.path : config.url,
         PATH: req.path,
@@ -49,33 +50,58 @@ app.get('*', async (req, res) => {
 
 
     try {
+        // console.log(`========================== REDIS REQUEST  ======================`)
+        console.time(`REDIS`);
         if (await isRateExceded(DATA)) {
+            console.timeEnd(`REDIS`);
+            // console.log(`========================== REDIS REQUEST END ======================`)
             res.status(403).jsonp({
                 "message": "Rate Exceded",
                 "error": "Forbiden",
                 "status": 403,
                 "cause": []
             })
+            console.time(`ES`);
             await sendMetric(DATA.PATH, DATA.HOST, 403)
+            console.timeEnd(`ES`);
+            console.timeEnd(`ALL`);
             console.log(`////////////////////// END REQUEST /////////////////////////`)
         }
+        console.timeEnd(`REDIS`);
+        // console.log(`========================== REDIS REQUEST END ======================`)
+        // console.log(`************************ PROXY REQUEST START ***********************`)
+        console.time(`PROXY`);
         const result = await request(DATA.URL)
+        console.timeEnd(`PROXY`);
+        // console.log(`************************ PROXY REQUEST END ***********************`)
+
+        console.time(`ES`);
+        // console.log(`################ ES REQUEST  #####################`)
         await sendMetric(DATA.PATH, DATA.HOST, 200)
-        res.json(JSON.parse(result))
+        console.timeEnd(`ES`);
+        // console.log(`################ ES REQUEST END #####################`)
+        console.timeEnd(`ALL`);
         console.log(`////////////////////// END REQUEST /////////////////////////`)
+        res.json(JSON.parse(result))
 
     } catch (e) {
 
         if (e.response && e.response.body) {
-            console.log(e.response.body.status)
+            // console.log(e.response.body.status)
             let body = JSON.parse(e.response.body)
+            console.time(`ES`);
             await sendMetric(DATA.PATH, DATA.HOST, body.status ? body.status : 500)
+            console.timeEnd(`ES`);
             body.status ? res.status(body.status).jsonp(body) : res.status(500).jsonp(body)
+            console.timeEnd(`ALL`);
             console.log(`////////////////////// END REQUEST /////////////////////////`)
 
         }
+        console.time(`ES`);
         await sendMetric(DATA.PATH, DATA.HOST, 500)
+        console.timeEnd(`ES`);
         res.status(500).jsonp(e)
+        console.timeEnd(`ALL`);
         console.log(`////////////////////// END REQUEST /////////////////////////`)
     }
 
@@ -89,7 +115,7 @@ app.get('*', async (req, res) => {
 ////////// CUSTOM POST'S ///////////////
 
 app.post('/setMaxRate', async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     if (req.body && !req.body.key) {
         res.status(400).jsonp({
             "message": `missing 'key' param in request`,
