@@ -19,7 +19,7 @@ exports.sendMetric = async (path, host, result) => {
     json: true
   };
 
-  await request(options)
+  return request(options)
 
 
 }

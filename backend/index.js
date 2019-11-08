@@ -1,6 +1,15 @@
-const { config} = require('./config');
-var {isRateExceded,setMaxRate,getMaxRate} = require('./helpers/rate')
-var {sendMetric,getMetric} = require('./metrics/metric')
+const {
+    config
+} = require('./config');
+var {
+    isRateExceded,
+    setMaxRate,
+    getMaxRate
+} = require('./helpers/rate')
+var {
+    sendMetric,
+    getMetric
+} = require('./metrics/metric')
 
 
 const express = require('express')
@@ -41,7 +50,7 @@ app.get('/getConfig', async (req, res) => {
 ////////// REVERSE PROXY  ///////////////
 app.get('*', async (req, res) => {
     console.log(`////////////////////// START REQUEST /////////////////////////`)
-    console.time(`ALL`);
+
     const DATA = {
         URL: req.path ? config.url + req.path : config.url,
         PATH: req.path,
@@ -51,9 +60,9 @@ app.get('*', async (req, res) => {
 
     try {
         // console.log(`========================== REDIS REQUEST  ======================`)
-        console.time(`REDIS`);
+
         if (await isRateExceded(DATA)) {
-            console.timeEnd(`REDIS`);
+
             // console.log(`========================== REDIS REQUEST END ======================`)
             res.status(403).jsonp({
                 "message": "Rate Exceded",
@@ -61,26 +70,26 @@ app.get('*', async (req, res) => {
                 "status": 403,
                 "cause": []
             })
-            console.time(`ES`);
-            await sendMetric(DATA.PATH, DATA.HOST, 403)
-            console.timeEnd(`ES`);
-            console.timeEnd(`ALL`);
+
+             sendMetric(DATA.PATH, DATA.HOST, 403)
+
+
             console.log(`////////////////////// END REQUEST /////////////////////////`)
         }
-        console.timeEnd(`REDIS`);
+
         // console.log(`========================== REDIS REQUEST END ======================`)
         // console.log(`************************ PROXY REQUEST START ***********************`)
-        console.time(`PROXY`);
-        const result = await request(DATA.URL)
-        console.timeEnd(`PROXY`);
+
+        // const result = await request(DATA.URL)
+        const result =`[{"default_currency_id":"CLP","id":"MLC","name":"Chile"},{"default_currency_id":"BRL","id":"MLB","name":"Brasil"},{"default_currency_id":"CRC","id":"MCR","name":"Costa Rica"},{"default_currency_id":"EUR","id":"MPT","name":"Portugal"},{"default_currency_id":"PEN","id":"MPE","name":"Perú"},{"default_currency_id":"PAB","id":"MPA","name":"Panamá"},{"default_currency_id":"USD","id":"MSV","name":"El Salvador"},{"default_currency_id":"VES","id":"MLV","name":"Venezuela"},{"default_currency_id":"BOB","id":"MBO","name":"Bolivia"},{"default_currency_id":"UYU","id":"MLU","name":"Uruguay"},{"default_currency_id":"CUP","id":"MCU","name":"Cuba"},{"default_currency_id":"USD","id":"MEC","name":"Ecuador"},{"default_currency_id":"ARS","id":"MLA","name":"Argentina"},{"default_currency_id":"NIO","id":"MNI","name":"Nicaragua"},{"default_currency_id":"GTQ","id":"MGT","name":"Guatemala"},{"default_currency_id":"COP","id":"MCO","name":"Colombia"},{"default_currency_id":"HNL","id":"MHN","name":"Honduras"},{"default_currency_id":"PYG","id":"MPY","name":"Paraguay"},{"default_currency_id":"MXN","id":"MLM","name":"Mexico"},{"default_currency_id":"DOP","id":"MRD","name":"Dominicana"}]`
         // console.log(`************************ PROXY REQUEST END ***********************`)
 
-        console.time(`ES`);
+
         // console.log(`################ ES REQUEST  #####################`)
-        await sendMetric(DATA.PATH, DATA.HOST, 200)
-        console.timeEnd(`ES`);
+        sendMetric(DATA.PATH, DATA.HOST, 200)
+
         // console.log(`################ ES REQUEST END #####################`)
-        console.timeEnd(`ALL`);
+
         console.log(`////////////////////// END REQUEST /////////////////////////`)
         res.json(JSON.parse(result))
 
@@ -89,19 +98,16 @@ app.get('*', async (req, res) => {
         if (e.response && e.response.body) {
             // console.log(e.response.body.status)
             let body = JSON.parse(e.response.body)
-            console.time(`ES`);
-            await sendMetric(DATA.PATH, DATA.HOST, body.status ? body.status : 500)
-            console.timeEnd(`ES`);
+
+            //  sendMetric(DATA.PATH, DATA.HOST, body.status ? body.status : 500)
+
             body.status ? res.status(body.status).jsonp(body) : res.status(500).jsonp(body)
-            console.timeEnd(`ALL`);
+
             console.log(`////////////////////// END REQUEST /////////////////////////`)
 
         }
-        console.time(`ES`);
-        await sendMetric(DATA.PATH, DATA.HOST, 500)
-        console.timeEnd(`ES`);
         res.status(500).jsonp(e)
-        console.timeEnd(`ALL`);
+
         console.log(`////////////////////// END REQUEST /////////////////////////`)
     }
 
@@ -160,8 +166,8 @@ app.post('/setMaxRate', async (req, res) => {
 
 
 app.post('/getMetric', async (req, res) => {
-   
-   
+
+
     if (req.body && !req.body.id) {
 
         res.status(400).jsonp({

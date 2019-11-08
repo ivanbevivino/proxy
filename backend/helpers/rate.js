@@ -32,19 +32,23 @@ exports.isRateExceded = async (DATA) => {
         }
         //IF NOT EXIST PATH REDIS, SET NEW REDIS 
         if (!res[0]) {
-            redis.setex(`${DATA.PATH}`, config.maxRateTime, 1)
+            // redis.setex(`${DATA.PATH}`, config.maxRateTime, 1)
+            writeRedis('setTtl',`${DATA.PATH}`,1, config.maxRateTime)
         }
         //IF NOT EXIST HOST REDIS, SET NEW REDIS 
         if (!res[2]) {
-            redis.setex(`${DATA.HOST}`, config.maxRateTime, 1)
+            // redis.setex(`${DATA.HOST}`, config.maxRateTime, 1)
+            writeRedis('setTtl',`${DATA.HOST}`,1, config.maxRateTime)
         }
         // CHECK IF EXCED RATE
         if (isPathLimitExceded() || isHostLimitExceded()) {
             return true
         }
         // INCREASE CALL COUNT
-        redis.incrby(`${DATA.PATH}`, 1)
-        redis.incrby(`${DATA.HOST}`, 1)
+        // redis.incrby(`${DATA.PATH}`, 1)
+        writeRedis('increase',`${DATA.PATH}`,1)
+        // redis.incrby(`${DATA.HOST}`, 1)
+        writeRedis('increase',`${DATA.HOST}`,1)
         return false
     } catch (e) {
         return false
@@ -68,6 +72,24 @@ exports.isRateExceded = async (DATA) => {
         }
     }
 
+
+}
+
+
+async function writeRedis(type, key, value, ttl) {
+    switch (type) {
+        case 'increase':
+            redis.incrby(key, value)
+            break;
+        case 'setTtl':
+            redis.setex(key, ttl, value)
+            break;
+        case 'set':
+            redis.set(key, value)
+            break;
+        default:
+            break;
+    }
 
 }
 
