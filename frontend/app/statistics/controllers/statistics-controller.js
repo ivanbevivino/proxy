@@ -1,6 +1,5 @@
-(function() {
+(function () {
   'use strict';
-
   /**
    * @ngdoc object
    * @name statistics.controller:statisticsCtrl
@@ -11,192 +10,100 @@
   angular
     .module('statistics')
     .controller('statisticsCtrl', statisticsCtrl);
-
-  function statisticsCtrl($scope, ev, statisticsApi, $uibModal, $q, growl) {
+  function statisticsCtrl($scope, ev, statisticsApi, $uibModal, $q, growl, $interval, $rootScope, googleChartApiPromise) {
     var vm = this;
-    vm.ctrlName = 'statisticsCtrl';
-
-    //-------- parametro--------------
-
-    $scope.rowCollection = ev;
-    $scope.rowCollection.forEach(function (x) {
-      x.start_datetime= moment(x.start_datetime).format('YYYY-MM-DD HH:mm');
-      x.end_datetime= moment(x.end_datetime).format('YYYY-MM-DD HH:mm');
+    vm.ctrlName = 'StatisticsCtrl';
+    Promise.all([googleChartApiPromise]).then(() => {
+      $scope.getstats();
+      // $scope.getuser();
     })
-
-
-
-    // -------- variables ------------
-    $scope.itemsByPage = 15;
-    $scope.currentPage = 0;
-    $scope.pageSize = 15;
-    // $scope.tab = 'list';
-    $scope.tab = 'statistics';
-    $scope.search = { "title": "" };
-
-
-
-    // -------- funciones ------------
-
-
-    $scope.activateTab = function(tabName) {
-      $scope.tab = tabName;
-    };
-
-
-    $scope.hidePagination = function() {
-      $('.pager').addClass('hidden')
-    }
-    $scope.showPagination = function() {
-      $('.pager').removeClass('hidden')
-    }
-
-    $scope.buscarstatisticso = function() {
-      if ($scope.search.title && $scope.search.title != "") {
-
-
-        statisticsApi.buscarstatisticso($scope.search.title).then(function(response) {
-
-          if (response.length > 0) {
-            $scope.rowCollection = response
-            $scope.rowCollection.forEach(function (x) {
-      x.start_datetime= moment(x.start_datetime).format('YYYY-MM-DD HH:mm');
-      x.end_datetime= moment(x.end_datetime).format('YYYY-MM-DD HH:mm');
-    })
-            $scope.hidePagination();
-          } else {
-            growl.info('statisticso no encontrado')
+    $scope.reportSelected = 0
+    $scope.idEvent = 0;
+    $scope.from = "";
+    $scope.to = "";
+    $scope.from = moment().subtract(1, 'h').format('YYYY-MM-DD HH:mm')
+    $scope.to = moment().hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm')
+    let defaultColors = ['#46BFBD', '#56789f', '#949FB1', '#4D5360', '#3f5268', '#3071a9']
+    $scope.userstime = [];
+    $scope.reportfront = [{
+      "id": 1,
+      "name": "Request por path"
+    }, {
+      "id": 2,
+      "name": "Request por status"
+    }]
+    $scope.report = {
+        chart: {
+          type: "ColumnChart",
+          data: {},
+          options: {
+            title: 'Usuarios Conectados',
+            legend: {
+              position: "none"
+            },
+            colors: _.shuffle(defaultColors),
           }
-          if (response.length == 100) {
-            growl.info('Busqueda Limitada a 100 statisticsos')
-          }
-          // $scope.statisticsearch = response;
-        }).catch(function(err) {
-          growl.error(err);
-        })
-      } else {
-        growl.info('Complete el campo de busqueda')
-      }
-      
-    };
-
-    $scope.limpiarBusqueda = function() {
-      // $scope.statisticsearch = [];
-      $scope.search.title = "";
-      statisticsApi.getstatisticsLimitOffset(15, 0).then(function(res) {
-        $scope.currentPage = 0
-        $scope.rowCollection = res;
-              $scope.showPagination();
-      }).catch(function(err) {
-        growl.error(err);
-      })
-
-
-    };
-
-
-
-
-    $scope.goNext = function() {
-
-      $scope.currentPage = $scope.currentPage + 1;
-      statisticsApi.getstatisticsLimitOffset($scope.itemsByPage, $scope.itemsByPage * $scope.currentPage).then(function(response) { //?limit=100&offset=0
-        $scope.rowCollection = JSON.parse(JSON.stringify(response));
-        $scope.rowCollection.forEach(function (x) {
-      x.start_datetime= moment(x.start_datetime).format('YYYY-MM-DD HH:mm');
-      x.end_datetime= moment(x.end_datetime).format('YYYY-MM-DD HH:mm');
-    })
-
-
-      });
-
-    }
-
-
-
-
-
-    $scope.goFoward = function() {
-      if ($scope.currentPage > 0) {
-
-        $scope.currentPage = $scope.currentPage - 1;
-        statisticsApi.getstatisticsLimitOffset($scope.itemsByPage, $scope.itemsByPage * $scope.currentPage).then(function(response) { //?limit=100&offset=0
-          $scope.rowCollection = JSON.parse(JSON.stringify(response));
-          $scope.rowCollection.forEach(function (x) {
-      x.start_datetime= moment(x.start_datetime).format('YYYY-MM-DD HH:mm');
-      x.end_datetime= moment(x.end_datetime).format('YYYY-MM-DD HH:mm');
-    })
-
-        });
-      }
-    }
-
-
-    $scope.copyLink = function (statisticso) { 
-  if(statisticso.m3u8){
-
-  var el = document.createElement('textarea');
-  el.value = statisticso.m3u8;
-  el.setAttribute('readonly', '');
-  el.style.position = 'absolute';
-  el.style.left = '-9999px';
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand('copy');
-  document.body.removeChild(el);
-  growl.success('Link copiado al portapapeles')
-  }
-  else{
-    growl.error('No se encontro el link')
-  }
-};
-
-
-    //  -----  modal  -------
-
-    $scope.removeItem = function(statistics) {
-      var innerScope = $scope.$new();
-
-
-      $scope.modal = $uibModal.open({
-        scope: innerScope,
-        templateUrl: 'constants/areyousure-modal.html'
-
-      });
-
-      innerScope.yes = function() {
-        $scope.modal.close();
-        statisticsApi.deletestatisticsbyId(statistics.id).then(function() {
-          growl.success('statisticso eliminado')
-
-
-          statisticsApi.getstatisticsLimitOffset($scope.itemsByPage, $scope.itemsByPage * $scope.currentPage).then(function(response) { //?limit=100&offset=0
-            $scope.rowCollection = JSON.parse(JSON.stringify(response));
-
+        }
+      },
+      $scope.chartoptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: 0
+            }
+          }]
+        }
+      };
+    $scope.initgraph = function () {}
+    $scope.getstats = function () {
+      if ($scope.reportSelected) {
+        let array2table = []
+        $rootScope.progressbar.start();
+        var req = {
+          "id": Number($scope.reportSelected),
+          "from": Number(moment($scope.from).format('x')),
+          "to": Number(moment($scope.to).format('x'))
+        }
+        statisticsApi.getstatistics(req)
+          .then(function (res) {
+            switch (req.id) {
+              case 1:
+                $scope.report.chart.options.title = "Request por path"
+                array2table.push(['Path', 'Cantidad'])
+                if (res.aggregations && res.aggregations.group_by_path && res.aggregations.group_by_path.buckets) {
+                  for (let i = 0; i < res.aggregations.group_by_path.buckets.length; i++) {
+                    const element = res.aggregations.group_by_path.buckets[i];
+                    array2table.push([element.key, element.doc_count])
+                    $scope.report.chart.data = google.visualization.arrayToDataTable(array2table)
+                  }
+                }
+                break;
+              case 2:
+                $scope.report.chart.options.title = "Request por status"
+                array2table.push(['Code', 'Cantidad'])
+                if (res.aggregations && res.aggregations.group_by_status && res.aggregations.group_by_status.buckets) {
+                  for (let i = 0; i < res.aggregations.group_by_status.buckets.length; i++) {
+                    const element = res.aggregations.group_by_status.buckets[i];
+                    array2table.push([element.key, element.doc_count])
+                    $scope.report.chart.data = google.visualization.arrayToDataTable(array2table)
+                  }
+                }
+                break;
+            }
+          }).catch(function () {
+            growl.error("no se pudieron obtener las metricas")
           })
-
-
-
-        }).catch(function(err) {
-          console.error(err)
-        });
+        $rootScope.progressbar.complete();
       }
-
-
-      // $scope.initialize();
-    };
-
-
-
-
-
-
-    //  ----- ejecuciones -------
-
-
-
-
-
-
+    }
+    $scope.getstats();
+    var refreshTimer = $interval(function () {
+      $scope.getstats()
+    }, 60 * 1000)
+    $scope.$on('$destroy', function () {
+      $interval.cancel(refreshTimer);
+    });
   }
 }());
