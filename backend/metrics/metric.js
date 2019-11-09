@@ -4,6 +4,7 @@ var {getQuery } = require('./querys');
 var moment = require('moment');
 
 
+
 exports.sendMetric = async (path, host, result) => {
   // let time = moment().hours(0).minutes(0).seconds(0).format("X")
   // console.log(`${time}`)
@@ -18,27 +19,18 @@ exports.sendMetric = async (path, host, result) => {
     },
     json: true
   };
-
   return request(options)
-
-
 }
 
 
 
-
-
-
-exports.getMetric = async (id) => {
+exports.getMetric = async (id,from,to) => {
   let time = moment().hours(0).minutes(0).seconds(0).format("X")
   var options = {
     method: 'POST',
     uri: `${config.elasticSearchHost}:${config.elasticSearchPort}/request/request/_search`,
-    body: JSON.parse(`${getQuery(Number(id))}`),
+    body: JSON.parse(`${getQuery(Number(id),from,to)}`),
     json: true
   };
-
     return await request(options)
-  
-
 }

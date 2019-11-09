@@ -5,6 +5,8 @@ var Redis = require("ioredis");
 var redis = new Redis(config.redisPort, config.redisHost)
 
 
+
+
 exports.isRateExceded = async (DATA) => {
     try {
         // GET CURRENT VALUE,GET CUSTOM RATE
@@ -53,8 +55,6 @@ exports.isRateExceded = async (DATA) => {
     } catch (e) {
         return false
     }
-
-
     function isPathLimitExceded() {
         if (res[0] && Number(res[0]) > Number(pathLimit)) {
             return true
@@ -62,8 +62,6 @@ exports.isRateExceded = async (DATA) => {
             return false
         }
     }
-
-
     function isHostLimitExceded() {
         if (res[2] && Number(res[2]) > Number(hostsLimit)) {
             return true
@@ -71,11 +69,7 @@ exports.isRateExceded = async (DATA) => {
             return false
         }
     }
-
-
 }
-
-
 async function writeRedis(type, key, value, ttl) {
     switch (type) {
         case 'increase':
@@ -90,42 +84,35 @@ async function writeRedis(type, key, value, ttl) {
         default:
             break;
     }
-
 }
+
+
+
 
 exports.setMaxRate = async (key, maxRate, ttl) => {
     if (ttl) {
         if (key == "maxrateHost") {
             redis.setex(`maxrateHost`, Number(ttl), Number(maxRate))
-
         } else {
-
-
             if (key == "maxratePath") {
                 redis.setex(`maxratePath`, Number(ttl), Number(maxRate))
-
             } else {
-
                 redis.setex(`maxrate${key}`, Number(ttl), Number(maxRate))
             }
         }
     } else {
         if (key == "maxrateHost") {
             redis.set(`maxrateHost`, Number(maxRate))
-
         } else {
-
             if (key == "maxratePath") {
                 redis.set(`maxratePath`, Number(maxRate))
-
             } else {
-
                 redis.set(`maxrate${key}`, Number(maxRate))
             }
         }
     }
-
 }
+
 
 
 
@@ -140,7 +127,6 @@ exports.getMaxRate = async () => {
     if (prom.length) {
         var resu = await Promise.all(prom)
     }
-
     console.log(resu)
     var result = []
     for (let i = 0; i < resu.length; i++) {
@@ -148,7 +134,6 @@ exports.getMaxRate = async () => {
             "key": res[i],
             "value": resu[i]
         })
-
     }
     return result
 }
