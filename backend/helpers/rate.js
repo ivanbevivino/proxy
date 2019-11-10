@@ -119,10 +119,19 @@ exports.getMaxRate = async () => {
     resu = resu ? resu : result
     console.log(resu)
     for (let i = 0; i < resu.length; i++) {
+        let r = 
         result.push({
-            "key": res[i],
+            "key": res[i].replace(/maxrate/g, '')
+                ,
             "value": resu[i]
         })
     }
     return result
+}
+
+
+exports.deleteMaxRate = async (key) => {
+    key='maxrate'+key
+    console.log(key)
+    return redis.del(key)
 }
