@@ -149,7 +149,7 @@ app.post('/getMetric', async (req, res) => {
             "cause": []
         })
     }
-    var result = await getMetric(req.body.id)
+    var result = await getMetric(req.body.id,req.body.from,req.body.to)
     res.json(result)
 });
 
