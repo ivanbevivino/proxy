@@ -1,68 +1,55 @@
 <div class="js-intro-helper">
-
-  
-    <!-- --- User --- -->
-    <div id="js-users-tab" class="tab__content" >
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Control</h2>
-            <ul class="nav navbar-right panel_toolbox">
-              <li>
-                <button class="btn btn-primary" translate ng-click="createControl()" class="action">Nuevo Control</button>
-              </li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-          <div class="x_content">
-            <div class="table-responsive">
-              <table st-table="displayedCollection" st-safe-src="config"
-                class="table table-striped jambo_table bulk_action">
-                <thead>
-                  <tr class="headings">
-                    <th class="column-title" st-sort="key">clave</th>
-                    <th class="column-title" st-sort="value">valor</th>
-                    <!-- <th class="column-title" st-sort="roles">roles</th> -->
-                    <!-- <th class="column-title" st-sort="active">activo</th> -->
-                    <th class="column-title" st-sort="active">acciones</th>
-                  </tr>
-                    <tr class="trbusqueda">
-        <th colspan="5"><input st-search="" class="form-control" placeholder="Buscar..." type="text"/></th>
-      </tr>
-              <!-- <input st-search="" class="form-control" placeholder="global search ..." type="text"/> -->
-                </thead>
-                <tbody>
-                  <tr ng-repeat="row in displayedCollection">
-                    <td>{{row.key}}</td>
-                    <td>{{row.value}}</td>
-          <!--           <td><span ng-repeat="rol in row.roles">{{rol.text}} | </span></td>
-                    <td>{{row.active==1?true:false}}</td> -->
-                   <td>
-                    <a href="#/categorydata/{{row.key}}">
+  <div id="js-users-tab" class="tab__content">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Control</h2>
+          <ul class="nav navbar-right panel_toolbox">
+            <li>
+              <button class="btn btn-primary" translate ng-click="createControl()" class="action">Nuevo Control</button>
+            </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="table-responsive">
+            <table st-table="displayedCollection" st-safe-src="config"
+              class="table table-striped jambo_table bulk_action">
+              <thead>
+                <tr class="headings">
+                  <th class="column-title" st-sort="key">clave</th>
+                  <th class="column-title" st-sort="value">valor</th>
+                  <th class="column-title" st-sort="active">acciones</th>
+                </tr>
+                <tr class="trbusqueda">
+                  <th colspan="5"><input st-search="" class="form-control" placeholder="Buscar..." type="text" /></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="row in displayedCollection">
+                  <td>{{row.key}}</td>
+                  <td>{{row.value}}</td>
+                  <td>
+                    <!-- <a href="#/categorydata/{{row.key}}">
                       <button type="button" class="btn btn-sm btn-primary">
                         <i class="glyphicon glyphicon-pencil">
                   </i>
                       </button>
-                    </a>
-                    </td> 
-                    </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="5" class="text-center">
-                      <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
+                    </a> -->
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
         </div>
       </div>
-      <!--    <div>
-        
-      </div> -->
     </div>
-    <!-- --- Roles --- -->
-
   </div>
+</div>

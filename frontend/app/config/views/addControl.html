@@ -1,49 +1,30 @@
-<div class="aside aside--secondary" tabindex="-1" role="dialog">
-  <div class="aside-dialog">
-    <div class="aside-content">
-      <div class="aside-header">
-        <div class="aside-close" ng-click="$hide()">&#xe2aa;</div>
-        <h4 class="aside-title">Categories</h4>
-      </div>
-      <div class="aside-body">
-        <div class="secondary-aside-body" ng-form name="form">
-              
-          
-               <div class="scheduling-field">
-            <div class="scheduling-field__label" >id</div>
-            <div class="scheduling-field__value">
-              <input type="text" class="input-field single-field" ng-model="newcategory.id" disabled/>
-            </div>
-          </div>
-               <div class="scheduling-field">
-            <div class="scheduling-field__label" >id_parent</div>
-            <div class="scheduling-field__value">
-              <input type="text" class="input-field single-field" ng-model="newcategory.parent_id" disabled/>
-            </div>
-          </div>
-
-          <div class="scheduling-field">
-            <div class="scheduling-field__label">icon</div>
-            <div class="scheduling-field__value">
-              <input type="text" class="input-field single-field" ng-model="newcategory.icon" />
-            </div>
-          </div>
-
-          <div class="scheduling-field">
-            <div class="scheduling-field__label">Name</div>
-            <div class="scheduling-field__value">
-              <input type="text" class="input-field single-field" ng-model="newcategory.name" required/>
-            </div>
-          </div>
-
-          
-          
-          <div class="aside-footer">
-            <button class="secondary-bglight-button" ng-click="$hide()">Cancel</button>
-            <button class="primary-bglight-button" ng-click="yes()" ng-disabled="form.$invalid">Save</button>
-          </div>
-        </div>
-      </div>
+<div class="modal-body" id="modal-body">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$close()">&times;</button>
+    <h4 class="modal-title">Nuevo Control</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form__row">
+      <div class="form__label " translate>Path<span class="required">*</span></div>
+      <input type="text" name="country" id="autocomplete-custom-append_3" class="form-control col-md-10"
+        ng-model="newCtl.key" autocomplete="off">
     </div>
+    <div class="form__row last">
+      <div class="form__label " translate>Cantidad</div>
+      <input type="number" name="country" id="autocomplete-custom-append_3" class="form-control col-md-10"
+        ng-model="newCtl.value" autocomplete="off">
+    </div>
+    <label class="switchsm"> 
+        <input type="checkbox" ng-model="newCtl.enable" class="ng-pristine ng-untouched ng-valid"> <span class="slidersm round"></span> </label>
+    <div class="form__row last" ng-if="newCtl.enable">
+        <div class="form__label " translate>TTL</div>
+        <input type="number" name="country" id="autocomplete-custom-append_3" class="form-control col-md-10"
+          ng-model="newCtl.ttl" autocomplete="off">
+      </div>
+  </br></br></br>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="$close()" translate>Cancelar</button>
+    <button type="button" class="btn btn-primary" ng-click="$close();createNewControl()" translate>Guardar</button>
   </div>
 </div>

@@ -1,6 +1,5 @@
-(function() {
+(function () {
   'use strict';
-
   angular
     .module('config')
     .config(config);
@@ -12,15 +11,10 @@
         templateUrl: 'config/views/config.tpl.html',
         controller: 'configCtrl',
         controllerAs: 'config',
-        resolve: {
-        
-        },
+        resolve: {},
         data: {
           requiresLogin: true
         }
       })
-
-
-
   }
 }());

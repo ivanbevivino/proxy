@@ -1,6 +1,5 @@
 (function () {
   'use strict';
-
   /**
    * @ngdoc object
    * @name config.controller:configCtrl
@@ -12,96 +11,56 @@
     .module('config')
     .controller('configCtrl', configCtrl);
 
-  function configCtrl($scope, configApi, growl, $rootScope,$uibModal) {
-
-    
+  function configCtrl($scope, configApi, growl, $rootScope, $uibModal) {
     console.log($scope.config)
     $scope.getConfig = function () {
       configApi.getConfig()
-      .then(function (response) {
-        console.log(response)
-        $scope.config=response
-      })
-      .catch(function () {
-        growl.error("No se pudieron obtener las configuranciones")
-      })
+        .then(function (response) {
+          console.log(response)
+          $scope.config = response
+        })
+        .catch(function () {
+          growl.error("No se pudieron obtener las configuranciones")
+        })
     }
-    
     $scope.getConfig()
-    
-    
-    
-    
     $scope.itemsByPage = 15;
     $scope.currentPage = 0;
     $scope.pageSize = 10;
-
-
-
+    $scope.newCtl = {
+      "key": "/",
+      "value": 0,
+      "ttl": 0,
+      "enable": false
+    }
     // // -- Instance variables
     var modal;
-
-
-    $scope.createControl = function() {
-
+    $scope.createControl = function () {
+      $scope.newCtl = {
+        "key": "/",
+        "value": 0,
+        "ttl": 0,
+        "enable": false
+      }
       modal = $uibModal.open({
         scope: $scope,
         title: 'Create user',
         templateUrl: 'config/views/addControl.html'
       });
     };
-
-    // // -- Scope variables
-
-
-
-    // $scope.tab = 'Categorias';
-
-
-    // $scope.activateTab = function(tabName) {
-    //   $scope.tab = tabName;
-    // };
-
-    // $scope.syncTags = function() {
-    //    $rootScope.progressbar.start();
-    //   configApi.syncTags().then(function() {
-    //     growl.success('Tags sincronizadas correctamente');
-    //     $rootScope.progressbar.complete();
-
-    //   }).catch(function(err) {
-    //     growl.error('No se pudieron actualizar las tags, por favor reintente ');
-    //  $rootScope.progressbar.complete();
-    //   })
-    // };
-
-    // $scope.syncCategories = function() {
-    //    $rootScope.progressbar.start();
-
-    //   configApi.newsyncCategories().then(function() {
-    //     growl.success('Categorias sincronizadas correctamente');
-    //     $rootScope.progressbar.complete();
-    //   }).catch(function(err) {
-    //     growl.error('No se pudieron actualizar las categorias, por favor reintente ');
-    //     $rootScope.progressbar.complete();
-    //   })
-    // };
-
-
-
-    // $scope.$on('customer-settings:tabChange', function(evt, tab) {
-    //   $scope.tab = tab;
-    // });
-
-
-
-
-
-
-
-
-
-
-
-
+    $scope.createNewControl = function () {
+      if (!$scope.newCtl) {
+        $scope.newCtl.ttl = null
+      }
+      configApi.setConfig($scope.newCtl)
+        .then(function (res) {
+          growl.success("Se grabo un nuevo control")
+          $scope.getConfig()
+        })
+        .catch(function () {
+          growl.error("No se pudo grabar")
+        })
+      console.log($scope.newCtl)
+    }
   }
 }());
