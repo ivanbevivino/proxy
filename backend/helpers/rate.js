@@ -3,10 +3,6 @@ const {
 } = require('../config');
 var Redis = require("ioredis");
 var redis = new Redis(config.redisPort, config.redisHost)
-
-
-
-
 exports.isRateExceded = async (DATA) => {
     try {
         // GET CURRENT VALUE,GET CUSTOM RATE
@@ -35,12 +31,12 @@ exports.isRateExceded = async (DATA) => {
         //IF NOT EXIST PATH REDIS, SET NEW REDIS 
         if (!res[0]) {
             // redis.setex(`${DATA.PATH}`, config.maxRateTime, 1)
-            writeRedis('setTtl',`${DATA.PATH}`,1, config.maxRateTime)
+            writeRedis('setTtl', `${DATA.PATH}`, 1, config.maxRateTime)
         }
         //IF NOT EXIST HOST REDIS, SET NEW REDIS 
         if (!res[2]) {
             // redis.setex(`${DATA.HOST}`, config.maxRateTime, 1)
-            writeRedis('setTtl',`${DATA.HOST}`,1, config.maxRateTime)
+            writeRedis('setTtl', `${DATA.HOST}`, 1, config.maxRateTime)
         }
         // CHECK IF EXCED RATE
         if (isPathLimitExceded() || isHostLimitExceded()) {
@@ -48,9 +44,9 @@ exports.isRateExceded = async (DATA) => {
         }
         // INCREASE CALL COUNT
         // redis.incrby(`${DATA.PATH}`, 1)
-        writeRedis('increase',`${DATA.PATH}`,1)
+        writeRedis('increase', `${DATA.PATH}`, 1)
         // redis.incrby(`${DATA.HOST}`, 1)
-        writeRedis('increase',`${DATA.HOST}`,1)
+        writeRedis('increase', `${DATA.HOST}`, 1)
         return false
     } catch (e) {
         return false
@@ -85,10 +81,6 @@ async function writeRedis(type, key, value, ttl) {
             break;
     }
 }
-
-
-
-
 exports.setMaxRate = async (key, maxRate, ttl) => {
     if (ttl) {
         if (key == "maxrateHost") {
@@ -112,10 +104,6 @@ exports.setMaxRate = async (key, maxRate, ttl) => {
         }
     }
 }
-
-
-
-
 exports.getMaxRate = async () => {
     var res = await redis.keys(`*maxrate*`)
     console.log(res)
@@ -127,8 +115,9 @@ exports.getMaxRate = async () => {
     if (prom.length) {
         var resu = await Promise.all(prom)
     }
-    console.log(resu)
     var result = []
+    resu = resu ? resu : result
+    console.log(resu)
     for (let i = 0; i < resu.length; i++) {
         result.push({
             "key": res[i],
