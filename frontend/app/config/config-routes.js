@@ -13,7 +13,7 @@
         controller: 'configCtrl',
         controllerAs: 'config',
         resolve: {
-         
+        
         },
         data: {
           requiresLogin: true
