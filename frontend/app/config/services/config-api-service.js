@@ -25,5 +25,10 @@
         return response.data;
       });
     };
+    self.deleteConfig = function (req) {
+      return $http.post(API_URL.API_BACKEND + 'deleteMaxRate',req).then(function(response) {
+        return response.data;
+      });
+    };
   }
 }());
