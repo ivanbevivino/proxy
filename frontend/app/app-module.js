@@ -16,6 +16,7 @@
       'statistics',
       'config',
       'smart-table',
+      'prueba',
     
       'ngTagsInput',
       'angularjs-datetime-picker',

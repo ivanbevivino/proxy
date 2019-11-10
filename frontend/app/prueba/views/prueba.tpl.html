@@ -1,0 +1,69 @@
+<div class="row ">
+  <div class="col-md-12">
+
+  </div>
+</div>
+<div class="row">
+  <!--   <div class="col-md-8 col-sm-8 col-xs-12 " ng-repeat="report in reports" style="margin-top: 2vh">
+    <div class="x_panel ng-scope">
+      <div class="x_title">
+        <h2>{{report.title}} <small> </small></h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br>
+        <div class="js-intro-helper">
+          <canvas class="chart-base" chart-type="report.type" chart-colors="report.color" chart-data="report.data" chart-labels="report.labels" chart-series="report.series" chart-options="chartoptions" style="height: 30vw;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+ -->
+  <div class="col-md-offset-3 col-md-6 col-sm-6 col-xs-6 " style="margin-top: 2vh">
+    <div class="panel">
+        <div class="modal-body" id="modal-body">
+            <div class="modal-header">
+              <h4 class="modal-title">Pruebas</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form__row">
+                <div class="form__label " translate>Path<span class="required">*</span></div>
+                <input type="text" name="country" id="autocomplete-custom-append_3" class="form-control col-md-10"
+                  ng-model="path" autocomplete="off">
+              </div>
+              <div class="form__row last">
+                <div class="form__label " translate>usuarios</div>
+                <input type="number" name="country" id="autocomplete-custom-append_3" class="form-control col-md-10"
+                  ng-model="user" autocomplete="off">
+              </div>
+              <div class="form__row last">
+                  <div class="form__label " translate>cant</div>
+                  <input type="number" name="country" id="autocomplete-custom-append_3" class="form-control col-md-10"
+                    ng-model="calls" autocomplete="off">
+                </div>
+           
+            </br></br></br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" ng-click="test()" translate>Test</button>
+            </div>
+          </div>  
+    </div>
+  </div>
+  <div class="col-md-offset-3 col-md-6 col-sm-6 col-xs-6 " ng-if="response" style="margin-top: 2vh">
+      <div class="panel">
+          <div class="modal-body" id="modal-body">
+              <div class="modal-header">
+                <h4 class="modal-title">Response</h4>
+              </div>
+              <div class="modal-body">
+                  {{response}}
+              </div>
+       
+            </div>  
+      </div>
+    </div>
+
+
+</div>
+
