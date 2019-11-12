@@ -68,8 +68,8 @@ app.get('*', async (req, res) => {
     } catch (e) {
         if (e.response && e.response.body) {
             let body = JSON.parse(e.response.body)
-            //  sendMetric(DATA.PATH, DATA.HOST, body.status ? body.status : 500)
-            body.status ? res.status(body.status).jsonp(body) : res.status(500).jsonp(body)
+             sendMetric(DATA.PATH, DATA.HOST, e.statusCode ? e.statusCode : 500)
+            e.statusCode ? res.status(e.statusCode).jsonp(body) : res.status(500).jsonp(body)
         }
         return res.status(500).jsonp(e)
     }
