@@ -10,10 +10,10 @@
   angular
     .module('prueba')
     .controller('pruebaCtrl', pruebaCtrl);
-  function pruebaCtrl($scope,  pruebaApi,  growl,  $rootScope) {
+  function pruebaCtrl($scope,  pruebaApi,  growl,  $rootScope,API_URL) {
     var vm = this;
     vm.ctrlName = 'pruebaCtrl';
-
+$scope.api = API_URL.API_BACKEND
     $scope.user = 1
     $scope.calls = 1;
     $scope.path = "";
@@ -25,6 +25,7 @@
 
       for (let i = 0; i < $scope.user; i++) {
         var prom = []
+        
         for (let ii = 0; ii < $scope.calls; ii++) {
         prom.push(pruebaApi.getprueba($scope.path))
         }
@@ -37,6 +38,7 @@
             $scope.response = e
             growl.error("error")
           })
+          
       }
       // pruebaApi.getprueba($scope.path)
       // .then(function(res){
